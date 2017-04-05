@@ -5,9 +5,7 @@ all: edison-linux/arch/x86/boot/bzImage edison-bcm43340/bcm4334x.ko
 
 edison-linux/.git:
 	git submodule update --init edison-linux
-	cd edison-linux && git apply ../mfd_trace.h.patch
-	cd edison-linux && git apply ../sst_trace.h.patch
-	cd edison-linux && git apply ../ptrace.c.patch
+	./apply.sh
 
 edison-bcm43340/.git:
 	git submodule update --init edison-bcm43340
