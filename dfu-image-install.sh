@@ -29,20 +29,25 @@ mkdir -p "${FSBOOT_MOUNT}"
 mount -o loop "${FSROOT_IMAGE}" "${FSROOT_MOUNT}" || exit 1
 mount -o loop "${FSBOOT_IMAGE}" "${FSBOOT_MOUNT}" || exit 1
 
+echo "copying kernel config"
+cp edison-linux/.config "${FSROOT_MOUNT}"/root/kernel.config
+
 echo "copying kernel modules"
 
 [ -e "${MODULES}" ] && rm -Rf "${MODULES}"
 
+pushd "$(eh_collected_dir)/lib/modules/${RELEASE}"
 MODCOUNT=0
-for KO in `find $(eh_collected_dir)/* -name '*.ko'`; do
+for KO in `find * -name '*.ko'`; do
   D=$(dirname "${KO}")
-  mkdir -p "${MODULES}/kernel/${D}"
-  cp "${KO}" "${MODULES}/kernel/${D}"
+  mkdir -p "${MODULES}/${D}"
+  cp "${KO}" "${MODULES}/${D}"
   echo -n .
   MODCOUNT=$((${MODCOUNT} + 1))
 done
 echo
 echo "${MODCOUNT} modules copied"
+popd
 
 echo "computing module dependencies"
 cp edison-linux/modules.* "${MODULES}"
