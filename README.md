@@ -20,7 +20,7 @@ Includes two kernel configurations:
 Configuring and building a kernel:
 
 ```bash
-git clone https://github.com/esialb/edison-linux-helper.git
+git clone https://github.com/jubilinux/edison-linux-helper.git
 cd edison-linux-helper/
 make
 ```
